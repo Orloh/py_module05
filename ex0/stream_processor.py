@@ -60,9 +60,15 @@ class NumericProcessor(DataProcessor):
                 raise ValueError("Invalid numeric data stream")
 
             total = sum(data)
+            total_str = f"sum={total}"
+
             count = len(data)
+            count_str = f"{count} numeric values"
+
             avg = total / count if data else 0
-            return f"Processed {count} numeric values, sum={total}, avg={avg:.1f}"
+            avg_str = f"avg={avg:.1f}"
+
+            return f"Processed {count_str}, {total_str}, {avg_str}"
         except Exception as error:
             return f"Error: {error}"
 

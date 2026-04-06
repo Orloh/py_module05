@@ -9,6 +9,7 @@
 #    Updated: 2026/04/06 20:07:22 by orhernan        ###   ########.fr        #
 #                                                                             #
 # *************************************************************************** #
+
 import abc
 from typing import Any
 
@@ -112,7 +113,7 @@ def main() -> None:
 
     print("\tTest invalid ingestion of string 'foo' without prior validation:")
     try:
-        num_proc.ingest("foo") 
+        num_proc.ingest("foo")
     except Exception as e:
         print(f"\tGot exception: {e}")
 

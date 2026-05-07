@@ -120,8 +120,8 @@ class DataStream:
     def __init__(self) -> None:
         self.__processors: list[DataProcessor] = []
 
-    def register_processor(self, proc: DataProcessor) -> None:
-        self.__processors.append(proc)
+    def register_processor(self, processor: DataProcessor) -> None:
+        self.__processors.append(processor)
 
     def process_stream(self, stream: list[Any]) -> None:
         for item in stream:

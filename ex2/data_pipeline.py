@@ -141,15 +141,15 @@ class DataStream:
     def __init__(self) -> None:
         self.__processors: list[DataProcessor] = []
 
-    def register_processor(self, proc: DataProcessor) -> None:
-        self.__processors.append(proc)
+    def register_processor(self, processor: DataProcessor) -> None:
+        self.__processors.append(processor)
 
     def process_stream(self, stream: list[Any]) -> None:
         for item in stream:
             handled = False
-            for proc in self.__processors:
-                if proc.validate(item):
-                    proc.ingest(item)
+            for processor in self.__processors:
+                if processor.validate(item):
+                    processor.ingest(item)
                     handled = True
                     break
 
@@ -167,11 +167,11 @@ class DataStream:
             print()
             return
 
-        for proc in self.__processors:
-            display_name = f"{proc._type.capitalize()} Processor"
+        for processor in self.__processors:
+            display_name = f"{processor._type.capitalize()} Processor"
 
-            total = proc._rank_counter
-            remaining = len(proc._storage)
+            total = processor._rank_counter
+            remaining = len(processor._storage)
             print(
                 f"{display_name}: total {total} items processed, "
                 f"remaining {remaining} on processor"
@@ -180,12 +180,12 @@ class DataStream:
         print()
 
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
-        for proc in self.__processors:
+        for processor in self.__processors:
             export_data: list[tuple[int, str]] = []
 
             for _ in range(nb):
                 try:
-                    export_data.append(proc.output())
+                    export_data.append(processor.output())
                 except IndexError:
                     break
 

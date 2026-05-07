@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # *************************************************************************** #
 #                                                                             #
 #                                                        :::      ::::::::    #
@@ -125,9 +126,9 @@ class DataStream:
     def process_stream(self, stream: list[Any]) -> None:
         for item in stream:
             handled = False
-            for proc in self.__processors:
-                if proc.validate(item):
-                    proc.ingest(item)
+            for processor in self.__processors:
+                if processor.validate(item):
+                    processor.ingest(item)
                     handled = True
                     break
 
@@ -145,11 +146,11 @@ class DataStream:
             print()
             return
 
-        for proc in self.__processors:
-            display_name = f"{proc._type.capitalize()} Processor"
+        for processor in self.__processors:
+            display_name = f"{processor._type.capitalize()} Processor"
 
-            total = proc._rank_counter
-            remaining = len(proc._storage)
+            total = processor._rank_counter
+            remaining = len(processor._storage)
             print(
                 f"{display_name}: total {total} items processed, "
                 f"remaining {remaining} on processor"
@@ -166,8 +167,8 @@ def main() -> None:
     stream.print_processors_stats()
 
     print("Registering Numeric Processor")
-    num_proc = NumericProcessor()
-    stream.register_processor(num_proc)
+    num_processor = NumericProcessor()
+    stream.register_processor(num_processor)
     print()
 
     batch = [
@@ -194,10 +195,10 @@ def main() -> None:
     stream.print_processors_stats()
 
     print("Registering other data processors")
-    text_proc = TextProcessor()
-    log_proc = LogProcessor()
-    stream.register_processor(text_proc)
-    stream.register_processor(log_proc)
+    text_processor = TextProcessor()
+    log_processor = LogProcessor()
+    stream.register_processor(text_processor)
+    stream.register_processor(log_processor)
     print()
 
     print("Send the same batch again")
@@ -212,13 +213,13 @@ def main() -> None:
     )
 
     for _ in range(3):
-        num_proc.output()
+        num_processor.output()
 
     for _ in range(2):
-        text_proc.output()
+        text_processor.output()
 
     for _ in range(1):
-        log_proc.output()
+        log_processor.output()
 
     print()
 
